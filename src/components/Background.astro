@@ -1,0 +1,70 @@
+---
+// Animated gradient + grid + particle-network background.
+---
+<div
+  class="fixed inset-0 -z-30"
+  style="background:
+    radial-gradient(900px 600px at 80% -5%, rgba(56,189,248,0.10), transparent 60%),
+    radial-gradient(800px 600px at 5% 20%, rgba(129,140,248,0.10), transparent 55%),
+    radial-gradient(700px 700px at 50% 120%, rgba(56,189,248,0.07), transparent 60%),
+    linear-gradient(180deg,#0a1628,#0f1f38 60%,#0a1628);">
+</div>
+<canvas id="bg-canvas" class="fixed inset-0 -z-20 opacity-[0.55]"></canvas>
+<div
+  class="fixed inset-0 -z-20 pointer-events-none opacity-40"
+  style="background-image:linear-gradient(rgba(148,163,184,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,0.05) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 50% 0%,black,transparent 75%);mask-image:radial-gradient(circle at 50% 0%,black,transparent 75%);">
+</div>
+
+<script>
+  const cv = document.getElementById('bg-canvas') as HTMLCanvasElement | null;
+  if (cv && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const ctx = cv.getContext('2d')!;
+    let W = 0, H = 0;
+    let parts: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
+    function init() {
+      const n = Math.min(70, Math.floor((W * H) / 22000));
+      parts = Array.from({ length: n }, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.6 + 0.6,
+      }));
+    }
+    function resize() {
+      W = cv.width = innerWidth;
+      H = cv.height = innerHeight;
+      init();
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < parts.length; i++) {
+        const p = parts[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, 7);
+        ctx.fillStyle = 'rgba(56,189,248,0.55)';
+        ctx.fill();
+        for (let j = i + 1; j < parts.length; j++) {
+          const q = parts[j];
+          const dx = p.x - q.x, dy = p.y - q.y;
+          const d = Math.hypot(dx, dy);
+          if (d < 120) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = `rgba(129,140,248,${0.12 * (1 - d / 120)})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    resize();
+    draw();
+    addEventListener('resize', resize);
+  }
+</script>

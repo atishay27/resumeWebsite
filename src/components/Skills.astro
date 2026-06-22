@@ -1,0 +1,36 @@
+---
+import resume from '../data/resume.json';
+import Icon from './Icon.astro';
+const { skills } = resume;
+---
+<section id="skills" class="section-pad relative">
+  <div class="wrap">
+    <div class="eyebrow reveal">03 — Skills</div>
+    <h2 class="section-title reveal">Tools &amp; technologies</h2>
+    <p class="section-sub reveal">The stack I use to design, build, ship, and operate backend systems.</p>
+    <div class="grid gap-[22px] skills-grid">
+      {skills.map((s, i) => (
+        <div class={`skill-card reveal ${(i % 3) ? 'd' + (i % 3) : ''} card rounded-[18px] p-[26px] transition-all relative overflow-hidden`}>
+          <div class="w-[46px] h-[46px] rounded-xl flex items-center justify-center mb-4 text-accent" style="background:var(--accent-soft);">
+            <Icon name={s.icon} class="w-6 h-6" />
+          </div>
+          <h4 class="text-[1.05rem] mb-3.5">{s.title}</h4>
+          <div class="flex flex-wrap gap-2">
+            {s.items.map((it) => <span class="chip">{it}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .skill-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transform: scaleX(0); transform-origin: left; transition: transform .4s;
+  }
+  .skill-card:hover { transform: translateY(-6px); border-color: var(--accent); }
+  .skill-card:hover::before { transform: scaleX(1); }
+</style>

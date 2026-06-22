@@ -1,0 +1,51 @@
+---
+import resume from '../data/resume.json';
+const { experience } = resume;
+---
+<section id="experience" class="section-pad relative">
+  <div class="wrap">
+    <div class="eyebrow reveal">02 — Experience</div>
+    <h2 class="section-title reveal">Where I've made impact</h2>
+    <p class="section-sub reveal">A track record across product and platform teams — from front-end engineering to owning backend financial systems at scale.</p>
+    <div class="timeline relative max-w-[780px] mx-auto">
+      {experience.map((job, i) => (
+        <div class={`tl-item reveal ${i ? 'd' + i : ''} relative`}>
+          <div class="tl-dot"></div>
+          <div class="tl-card card rounded-[18px] px-[26px] py-6 transition-all">
+            <div class="flex justify-between flex-wrap gap-2 mb-1.5 items-baseline">
+              <div>
+                <span class="text-[1.18rem] font-bold">{job.role}</span>
+                <span class="text-dim"> · </span>
+                <span class="text-accent font-semibold text-[0.95rem]">{job.company}</span>
+              </div>
+              <span class="font-mono text-[0.78rem] text-dim rounded-full px-3 py-1 whitespace-nowrap" style="background:var(--accent-soft);">{job.date}</span>
+            </div>
+            <ul class="mt-3.5 flex flex-col gap-2.5">
+              {job.points.map((pt) => (
+                <li class="relative pl-[22px] text-dim text-[0.93rem] tl-li" set:html={pt}></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline::before {
+    content: ''; position: absolute; left: 18px; top: 6px; bottom: 6px; width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2), transparent);
+  }
+  .tl-item { padding-left: 60px; padding-bottom: 46px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot {
+    position: absolute; left: 9px; top: 4px; width: 20px; height: 20px; border-radius: 50%;
+    background: #0a1628; border: 3px solid var(--accent);
+    box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.12); z-index: 2;
+  }
+  .tl-card:hover { border-color: var(--accent); transform: translateX(6px); background: rgba(56, 189, 248, 0.04); }
+  .tl-li::before { content: '▹'; position: absolute; left: 0; color: var(--accent); }
+  .tl-li :global(b) { color: var(--text); font-weight: 600; }
+  @media (max-width: 520px) { .tl-item { padding-left: 48px; } }
+</style>

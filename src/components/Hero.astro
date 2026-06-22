@@ -1,0 +1,114 @@
+---
+import resume from '../data/resume.json';
+import Icon from './Icon.astro';
+const { profile, socials } = resume;
+---
+<section id="home" class="min-h-screen flex items-center relative" style="padding:120px clamp(20px,5vw,60px) 0;">
+  <div class="grid items-center w-full max-w-content mx-auto gap-[60px] hero-grid">
+    <div class="hero-text">
+      <div class="reveal in inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 mb-6 text-[0.82rem] text-dim card">
+        {profile.available && <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulseDot" style="box-shadow:0 0 10px #34d399;"></span>}
+        {profile.availability}
+      </div>
+      <h1 class="reveal in d1 font-extrabold mb-2" style="font-size:clamp(2.6rem,6.5vw,4.6rem);">
+        Hi, I'm <span class="grad-text">{profile.firstName}</span>
+      </h1>
+      <div id="typed" class="reveal in d2 font-mono text-accent mb-6" style="font-size:clamp(1rem,2.4vw,1.4rem);min-height:1.6em;"></div>
+      <p class="reveal in d3 text-dim max-w-[520px] mb-8" style="font-size:1.05rem;" set:html={profile.lead}></p>
+
+      <div class="reveal in d4 flex gap-4 flex-wrap mb-9 hero-cta">
+        <a href="#contact" class="btn btn-primary">Request My Resume<Icon name="arrow" class="w-4 h-4" /></a>
+        <a href="#experience" class="btn btn-ghost">View Experience</a>
+      </div>
+
+      <div class="reveal in d4 flex gap-3.5 socials">
+        {socials.map((s) => (
+          <a href={s.url} target="_blank" rel="noopener" aria-label={s.label}
+            class="w-11 h-11 rounded-xl flex items-center justify-center card text-dim transition-all hover:text-accent hover:-translate-y-0.5">
+            <Icon name={s.icon} />
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="reveal in d2 relative flex justify-center portrait-wrap">
+      <div class="relative w-[300px] h-[360px] rounded-3xl overflow-hidden card" style="box-shadow:0 30px 60px rgba(0,0,0,0.45);">
+        <div class="portrait-glow absolute -inset-7 rounded-[30px] -z-10 animate-spinSlow"
+          style="background:conic-gradient(from 0deg,var(--accent),var(--accent-2),var(--accent));filter:blur(40px);opacity:.25;"></div>
+        <picture>
+          <source srcset={profile.portrait} type="image/webp" />
+          <img src={profile.portraitFallback} alt={profile.name} width="300" height="360"
+            class="w-full h-full object-cover" loading="eager" fetchpriority="high" />
+        </picture>
+      </div>
+      {profile.badges[0] && (
+        <div class="float-badge fb-1 animate-floaty">
+          <div class="ico">{profile.badges[0].icon}</div>
+          <div><b>{profile.badges[0].title}</b><br /><span>{profile.badges[0].sub}</span></div>
+        </div>
+      )}
+      {profile.badges[1] && (
+        <div class="float-badge fb-2 animate-floaty" style="animation-delay:.8s;">
+          <div class="ico">{profile.badges[1].icon}</div>
+          <div><b>{profile.badges[1].title}</b><br /><span>{profile.badges[1].sub}</span></div>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <div class="scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-dim font-mono" style="font-size:.72rem;letter-spacing:.1em;">
+    <div class="w-[22px] h-[34px] border-2 border-[#9fb0c5] rounded-xl flex justify-center pt-1.5">
+      <i class="w-[3px] h-[7px] bg-accent rounded animate-scrolldot"></i>
+    </div>
+    SCROLL
+  </div>
+</section>
+
+<style>
+  .hero-grid { grid-template-columns: 1.3fr .9fr; }
+  .float-badge {
+    position: absolute; padding: 11px 15px;
+    background: rgba(10, 22, 40, 0.85); backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border); border-radius: 13px;
+    font-size: .8rem; display: flex; align-items: center; gap: 9px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+  }
+  .float-badge .ico {
+    width: 30px; height: 30px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--accent-soft); color: var(--accent);
+    font-weight: 700; font-family: 'JetBrains Mono', monospace;
+  }
+  .float-badge b { font-family: 'Sora', sans-serif; color: var(--text); }
+  .float-badge span { color: var(--text-dim); font-size: .72rem; }
+  .fb-1 { top: 14px; left: -30px; }
+  .fb-2 { bottom: 36px; right: -34px; }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+    .hero-cta, .socials { justify-content: center; }
+    .hero-text p { margin-left: auto; margin-right: auto; }
+    .float-badge { display: none; }
+  }
+</style>
+
+<script>
+  import resumeData from '../data/resume.json';
+  const roles: string[] = resumeData.profile.roles;
+  const typed = document.getElementById('typed');
+  if (typed) {
+    let ri = 0, ci = 0, del = false;
+    const tick = () => {
+      const w = roles[ri];
+      typed.textContent = w.slice(0, ci) + '▋';
+      if (!del) {
+        ci++;
+        if (ci > w.length) { del = true; setTimeout(tick, 1400); return; }
+      } else {
+        ci--;
+        if (ci < 0) { del = false; ri = (ri + 1) % roles.length; ci = 0; }
+      }
+      setTimeout(tick, del ? 45 : 85);
+    };
+    tick();
+  }
+</script>

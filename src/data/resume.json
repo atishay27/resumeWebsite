@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "title": "Atishay Jain — Backend Developer",
+    "description": "Atishay Jain — Software Development Engineer at Flipkart. Backend specialist in Java, Dropwizard, and scalable microservices.",
+    "siteUrl": "https://atishay-resume.pages.dev"
+  },
+  "profile": {
+    "name": "Atishay Jain",
+    "firstName": "Atishay",
+    "title": "Backend Developer",
+    "location": "Bengaluru, India",
+    "availability": "Open to backend & platform roles",
+    "available": true,
+    "roles": [
+      "Backend Developer",
+      "SDE-1 @ Flipkart",
+      "Java · Dropwizard Specialist",
+      "Microservices Engineer"
+    ],
+    "lead": "Software Development Engineer at <strong>Flipkart</strong>, building scalable microservices and high-performance accounting systems with Java &amp; Dropwizard. I own features end-to-end — from design through deployment and monitoring.",
+    "portrait": "/portrait.webp",
+    "portraitFallback": "/portrait.jpg",
+    "initials": "AJ",
+    "badges": [
+      { "icon": "⚡", "title": "SDE-1", "sub": "@ Flipkart" },
+      { "icon": "{ }", "title": "Backend", "sub": "Java · Dropwizard" }
+    ]
+  },
+  "socials": [
+    { "label": "LinkedIn", "icon": "linkedin", "url": "https://linkedin.com/in/atishay27" },
+    { "label": "GitHub", "icon": "github", "url": "https://github.com/atishay27" }
+  ],
+  "stats": [
+    { "target": 4, "suffix": "+", "decimals": 0, "label": "Years Experience" },
+    { "target": 3, "suffix": "", "decimals": 0, "label": "Companies" },
+    { "target": 9.28, "suffix": "", "decimals": 2, "label": "MCA CGPA" },
+    { "target": 100, "suffix": "%", "decimals": 0, "label": "Ownership Mindset" }
+  ],
+  "about": {
+    "heading": "Backend engineer who ships reliable systems",
+    "paragraphs": [
+      "I'm a <strong>Software Development Engineer at Flipkart</strong>, specializing in backend systems for complex <span class=\"text-accent\">accounting and financial workflows</span>. My focus is building services that stay correct, observable, and scalable under real-world load.",
+      "I've owned the <strong>end-to-end backend</strong> to onboard a new Food Marketplace onto the core accounting stack, and delivered charters like <span class=\"text-accent\">Fee Adjustment</span> and <span class=\"text-accent\">PayIn3</span> that directly impact financial and regulatory compliance.",
+      "My toolkit spans <strong>Java, Dropwizard, Kafka, Pulsar, and Kubernetes</strong> — and I care about the whole SDLC: rigorous testing, CI/CD, metrics, and alerting. Before backend, I built React front-ends at VMware, so I appreciate the full picture."
+    ],
+    "quickFacts": [
+      { "label": "Role", "value": "SDE-1, Flipkart" },
+      { "label": "Location", "value": "Bengaluru, India" },
+      { "label": "Focus", "value": "Backend / Microservices" },
+      { "label": "Domain", "value": "FinTech / Accounting" },
+      { "label": "Core Stack", "value": "Java · Dropwizard" },
+      { "label": "Availability", "value": "Open to roles", "highlight": true }
+    ]
+  },
+  "experience": [
+    {
+      "role": "Software Development Engineer I",
+      "company": "Flipkart",
+      "date": "Oct 2025 — Present",
+      "points": [
+        "<b>Owned end-to-end backend</b> to onboard the new Food Marketplace onto the core accounting tech stack.",
+        "Developed core feature sets for key accounting charters including <b>Fee Adjustment</b> and <b>PayIn3</b>, improving financial &amp; regulatory compliance.",
+        "Built and scaled reliable accounting web services using <b>Java &amp; Dropwizard</b> for complex financial workflows.",
+        "Implemented asynchronous messaging pipelines across microservices using <b>Kafka &amp; Pulsar</b>."
+      ]
+    },
+    {
+      "role": "Application Engineer II",
+      "company": "Flipkart",
+      "date": "Sep 2024 — Sep 2025",
+      "points": [
+        "Maintained and optimized core accounting web services; resolved production bugs and managed deployments via <b>Kubernetes</b>.",
+        "Integrated <b>JWT authentication</b> across multiple microservices to strengthen system security.",
+        "Set up observability and automated alerting by integrating <b>Dropwizard Metrics</b>.",
+        "Improved code quality &amp; coverage via <b>SonarQube</b> pipelines and comprehensive <b>JUnit/Mockito</b> tests."
+      ]
+    },
+    {
+      "role": "CET Engineer",
+      "company": "VMware",
+      "date": "Jul 2022 — Jun 2024",
+      "points": [
+        "Designed reusable <b>React</b> components and wrappers, improving code maintainability.",
+        "Used <b>Redux</b> for robust, centralized application state management.",
+        "Implemented secure authentication using <b>JWT &amp; SSO</b> protocols.",
+        "Integrated <b>Zoom &amp; Microsoft APIs</b> to embed key collaboration features."
+      ]
+    }
+  ],
+  "skills": [
+    { "icon": "code", "title": "Languages", "items": ["Java", "Python"] },
+    { "icon": "layers", "title": "Frameworks", "items": ["Dropwizard", "Spring Boot"] },
+    { "icon": "cube", "title": "DevOps & Tools", "items": ["Kubernetes", "CI/CD", "Git", "SonarQube"] },
+    { "icon": "database", "title": "Databases", "items": ["MySQL", "MongoDB"] },
+    { "icon": "queue", "title": "Messaging", "items": ["Apache Kafka", "Apache Pulsar"] },
+    { "icon": "globe", "title": "Practices", "items": ["Microservices", "Observability", "Unit Testing", "SDLC"] }
+  ],
+  "education": [
+    {
+      "degree": "MCA",
+      "university": "PES University",
+      "cgpa": "9.28",
+      "location": "RR Campus, Bengaluru, Karnataka",
+      "period": "2020 — 2022"
+    },
+    {
+      "degree": "BCA",
+      "university": "DIT University",
+      "cgpa": "9.23",
+      "location": "Dehradun, Uttarakhand",
+      "period": "2017 — 2020"
+    }
+  ],
+  "contact": {
+    "heading": "Request my full resume",
+    "intro": "For privacy, my contact details and full resume aren't published here. Share a few details about the role and I'll send my resume directly to your inbox.",
+    "features": [
+      { "icon": "pin", "title": "Bengaluru, India", "sub": "Open to remote & relocation" },
+      { "icon": "mail", "title": "Verified requests only", "sub": "Please use a company email address" },
+      { "icon": "clock", "title": "Quick turnaround", "sub": "Usually replies within 24 hours" }
+    ],
+    "blockedEmailDomains": ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "icloud.com", "aol.com", "proton.me", "protonmail.com"],
+    "successMessage": "✓ Thanks! Your request was sent. I'll reply within 24 hours.",
+    "subject": "New resume request from your portfolio site"
+  }
+}

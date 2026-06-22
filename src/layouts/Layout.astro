@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import resume from '../data/resume.json';
+const { meta } = resume;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <meta name="author" content="Atishay Jain" />
+    <link rel="canonical" href={meta.siteUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={meta.siteUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      // ---------- Reveal on scroll ----------
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('in');
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll('.reveal:not(.in)').forEach((el) => io.observe(el));
+
+      // ---------- Animated counters ----------
+      const counters = document.querySelectorAll<HTMLElement>('.num[data-target]');
+      const cio = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              animate(e.target as HTMLElement);
+              cio.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      counters.forEach((c) => cio.observe(c));
+
+      function animate(el: HTMLElement) {
+        const target = parseFloat(el.dataset.target || '0');
+        const dec = parseInt(el.dataset.decimals || '0');
+        const suf = el.dataset.suffix || '';
+        const steps = 60;
+        const inc = target / steps;
+        let cur = 0,
+          i = 0;
+        const t = setInterval(() => {
+          i++;
+          cur += inc;
+          if (i >= steps) {
+            cur = target;
+            clearInterval(t);
+          }
+          el.textContent = (dec ? cur.toFixed(dec) : Math.floor(cur).toString()) + suf;
+        }, 18);
+      }
+    </script>
+  </body>
+</html>

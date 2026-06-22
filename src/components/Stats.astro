@@ -1,0 +1,18 @@
+---
+import resume from '../data/resume.json';
+const { stats } = resume;
+---
+<div class="grid gap-6 max-w-content mx-auto stats-grid" style="padding:0 clamp(20px,5vw,60px);">
+  {stats.map((s, i) => (
+    <div class={`reveal ${i ? 'd' + i : ''} card rounded-[18px] p-7 text-center transition-all hover:-translate-y-1.5 hover:border-accent relative overflow-hidden`}>
+      <div class="num grad-num font-sora font-extrabold text-[2.4rem]" data-target={s.target} data-suffix={s.suffix} data-decimals={s.decimals}>0</div>
+      <div class="text-dim text-[0.85rem] mt-1">{s.label}</div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  .card:hover { border-color: var(--accent); }
+  @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

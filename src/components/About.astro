@@ -1,0 +1,35 @@
+---
+import resume from '../data/resume.json';
+import Icon from './Icon.astro';
+const { about } = resume;
+---
+<section id="about" class="section-pad relative">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 — About</div>
+    <h2 class="section-title reveal">{about.heading}</h2>
+    <div class="grid gap-[50px] items-start about-grid">
+      <div class="about-text">
+        {about.paragraphs.map((p, i) => (
+          <p class={`reveal ${i ? 'd' + i : ''} text-dim mb-[18px]`} style="font-size:1.02rem;" set:html={p}></p>
+        ))}
+      </div>
+      <div class="reveal d1 card rounded-[18px] p-7">
+        <h4 class="text-base mb-5 flex items-center gap-2.5">
+          <Icon name="user" class="w-[18px] h-[18px] text-accent" /> Quick Facts
+        </h4>
+        {about.quickFacts.map((f) => (
+          <div class="flex justify-between py-3 text-[0.92rem] border-b border-[var(--card-border)] last:border-0">
+            <span class="text-dim">{f.label}</span>
+            <span class={f.highlight ? 'text-emerald-300 font-medium text-right' : 'font-medium text-right'}>{f.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid { grid-template-columns: 1.4fr 1fr; }
+  .about-text :global(strong) { color: var(--text); }
+  @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 34px; } }
+</style>

@@ -1,0 +1,18 @@
+---
+import resume from '../data/resume.json';
+import Icon from './Icon.astro';
+const { profile, socials } = resume;
+const year = new Date().getFullYear();
+---
+<footer class="px-[clamp(20px,5vw,60px)] py-10 border-t border-[var(--card-border)]">
+  <div class="max-w-content mx-auto flex justify-between items-center flex-wrap gap-4">
+    <p class="text-dim text-[0.85rem]">© {year} {profile.name} · {profile.title} · {profile.location}</p>
+    <div class="flex gap-3">
+      {socials.map((s) => (
+        <a href={s.url} target="_blank" rel="noopener" aria-label={s.label} class="text-dim transition-colors hover:text-accent">
+          <Icon name={s.icon} class="w-[18px] h-[18px]" />
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,85 @@
+---
+import resume from '../data/resume.json';
+const { profile } = resume;
+const links = [
+  { label: 'About', href: '#about' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Education', href: '#education' },
+];
+---
+<nav id="nav" class="fixed top-0 inset-x-0 z-50 flex items-center justify-between transition-all duration-300"
+  style="padding:18px clamp(20px,5vw,60px);">
+  <a href="#home" class="flex items-center gap-2.5 font-sora font-extrabold text-[1.15rem] tracking-tight">
+    <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulseDot" style="box-shadow:0 0 14px var(--glow);"></span>
+    {profile.name}
+  </a>
+
+  <div id="navLinks" class="nav-links flex items-center gap-[30px]">
+    {links.map((l) => (
+      <a href={l.href} class="navlink text-[0.9rem] font-medium text-dim relative transition-colors hover:text-[#e6edf6]">{l.label}</a>
+    ))}
+    <a href="#contact" class="rounded-full px-5 py-2.5 font-semibold text-[#06121f] transition-transform hover:-translate-y-0.5"
+      style="background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 4px 24px rgba(56,189,248,0.25);">
+      Request Resume
+    </a>
+  </div>
+
+  <button id="burger" class="burger hidden flex-col gap-[5px] p-1.5 bg-transparent border-0 cursor-pointer" aria-label="Menu">
+    <span class="w-6 h-0.5 bg-[#e6edf6] rounded transition-all"></span>
+    <span class="w-6 h-0.5 bg-[#e6edf6] rounded transition-all"></span>
+    <span class="w-6 h-0.5 bg-[#e6edf6] rounded transition-all"></span>
+  </button>
+</nav>
+
+<style>
+  .navlink::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -5px;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width .3s;
+  }
+  .navlink:hover::after { width: 100%; }
+  #nav.scrolled {
+    background: rgba(10, 22, 40, 0.72);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 12px clamp(20px, 5vw, 60px) !important;
+  }
+  @media (max-width: 900px) {
+    .nav-links {
+      position: fixed; top: 0; right: 0;
+      height: 100vh; width: min(75vw, 300px);
+      flex-direction: column; justify-content: center; gap: 34px;
+      background: rgba(10, 22, 40, 0.97);
+      backdrop-filter: blur(16px);
+      border-left: 1px solid var(--card-border);
+      transform: translateX(100%); transition: transform .35s;
+      padding: 40px;
+    }
+    .nav-links.open { transform: none; }
+    .burger { display: flex !important; }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+</style>
+
+<script>
+  const nav = document.getElementById('nav')!;
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
+  const burger = document.getElementById('burger')!;
+  const navLinks = document.getElementById('navLinks')!;
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      navLinks.classList.remove('open');
+    })
+  );
+</script>

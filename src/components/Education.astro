@@ -1,0 +1,32 @@
+---
+import resume from '../data/resume.json';
+import Icon from './Icon.astro';
+const { education } = resume;
+---
+<section id="education" class="section-pad relative">
+  <div class="wrap">
+    <div class="eyebrow reveal">04 — Education</div>
+    <h2 class="section-title reveal">Academic background</h2>
+    <div class="grid gap-6 edu-grid">
+      {education.map((e, i) => (
+        <div class={`reveal ${i ? 'd' + i : ''} card rounded-[18px] p-7 transition-all hover:-translate-y-1.5 hover:border-accent relative`}>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-[18px] text-[#06121f]" style="background:linear-gradient(135deg,var(--accent),var(--accent-2));">
+            <Icon name="cap" class="w-[26px] h-[26px]" />
+          </div>
+          <h4 class="text-[1.25rem] mb-1">{e.degree}</h4>
+          <div class="text-accent font-semibold mb-3.5">{e.university}</div>
+          <div class="flex flex-col gap-[7px] text-[0.88rem] text-dim">
+            <span class="inline-flex items-center gap-2 font-mono text-[#e6edf6]">CGPA <b class="grad-num text-[1.05rem]">{e.cgpa}</b> / 10</span>
+            <span>{e.location}</span>
+            <span class="font-mono">{e.period}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .edu-grid { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 900px) { .edu-grid { grid-template-columns: 1fr; } }
+</style>
