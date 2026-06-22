@@ -25,7 +25,7 @@ const links = [
     </a>
   </div>
 
-  <button id="burger" class="burger hidden flex-col gap-[5px] p-1.5 bg-transparent border-0 cursor-pointer" aria-label="Menu">
+  <button id="burger" class="burger hidden flex-col gap-[5px] p-1.5 bg-transparent border-0 cursor-pointer" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
     <span class="w-6 h-0.5 bg-[#e6edf6] rounded transition-all"></span>
     <span class="w-6 h-0.5 bg-[#e6edf6] rounded transition-all"></span>
     <span class="w-6 h-0.5 bg-[#e6edf6] rounded transition-all"></span>
@@ -73,13 +73,15 @@ const links = [
   const burger = document.getElementById('burger')!;
   const navLinks = document.getElementById('navLinks')!;
   burger.addEventListener('click', () => {
-    burger.classList.toggle('open');
-    navLinks.classList.toggle('open');
+    const open = burger.classList.toggle('open');
+    navLinks.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
   });
   navLinks.querySelectorAll('a').forEach((a) =>
     a.addEventListener('click', () => {
       burger.classList.remove('open');
       navLinks.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
     })
   );
 </script>

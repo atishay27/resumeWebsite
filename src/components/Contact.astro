@@ -30,41 +30,41 @@ const blocked = contact.blockedEmailDomains.join(',');
       </div>
 
       <div class="reveal d1 card rounded-[18px] p-[34px]">
-        <div id="formMsg" class="hidden mb-[18px] rounded-xl px-4 py-3.5 text-[0.9rem]"></div>
-        <form id="resumeForm" data-key={web3Key} data-blocked={blocked} data-subject={contact.subject} novalidate>
+        <div id="formMsg" role="status" aria-live="polite" class="hidden mb-[18px] rounded-xl px-4 py-3.5 text-[0.9rem]"></div>
+        <form id="resumeForm" data-key={web3Key} data-blocked={blocked} data-subject={contact.subject} data-success={contact.successMessage} novalidate>
           <div class="grid gap-4 form-row">
             <div class="field">
-              <label>Your Name <span class="text-accent">*</span></label>
-              <input type="text" name="name" placeholder="Jane Doe" required />
+              <label for="cf-name">Your Name <span class="text-accent">*</span></label>
+              <input id="cf-name" type="text" name="name" placeholder="Jane Doe" required />
               <div class="err">Please enter your name.</div>
             </div>
             <div class="field">
-              <label>Company <span class="text-accent">*</span></label>
-              <input type="text" name="company" placeholder="Acme Inc." required />
+              <label for="cf-company">Company <span class="text-accent">*</span></label>
+              <input id="cf-company" type="text" name="company" placeholder="Acme Inc." required />
               <div class="err">Please enter your company.</div>
             </div>
           </div>
           <div class="field">
-            <label>Company Email <span class="text-accent">*</span></label>
-            <input type="email" name="email" placeholder="you@company.com" required />
+            <label for="cf-email">Company Email <span class="text-accent">*</span></label>
+            <input id="cf-email" type="email" name="email" placeholder="you@company.com" required />
             <div class="err">Please use a valid company email (no gmail/yahoo/outlook).</div>
           </div>
           <div class="grid gap-4 form-row">
             <div class="field">
-              <label>Role / Position <span class="text-accent">*</span></label>
-              <input type="text" name="role" placeholder="Senior Backend Engineer" required />
+              <label for="cf-role">Role / Position <span class="text-accent">*</span></label>
+              <input id="cf-role" type="text" name="role" placeholder="Senior Backend Engineer" required />
               <div class="err">Please enter the role.</div>
             </div>
             <div class="field">
-              <label>Work Type</label>
-              <select name="work_type">
+              <label for="cf-work-type">Work Type</label>
+              <select id="cf-work-type" name="work_type">
                 <option>On-site</option><option>Hybrid</option><option>Remote</option><option>Contract</option>
               </select>
             </div>
           </div>
           <div class="field">
-            <label>Job Description / Message <span class="text-accent">*</span></label>
-            <textarea name="message" placeholder="Paste the JD or describe the opportunity..." required></textarea>
+            <label for="cf-message">Job Description / Message <span class="text-accent">*</span></label>
+            <textarea id="cf-message" name="message" placeholder="Paste the JD or describe the opportunity..." required></textarea>
             <div class="err">Please add a short message or JD.</div>
           </div>
           <!-- Honeypot anti-spam -->
@@ -118,6 +118,7 @@ const blocked = contact.blockedEmailDomains.join(',');
     const KEY = form.dataset.key || '';
     const BLOCKED = (form.dataset.blocked || '').split(',').filter(Boolean);
     const SUBJECT = form.dataset.subject || 'New resume request';
+    const SUCCESS = form.dataset.success || "✓ Thanks! Your request was sent. I'll reply within 24 hours.";
 
     const setErr = (el: Element, on: boolean) => el.closest('.field')!.classList.toggle('invalid', on);
     const validEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -171,7 +172,7 @@ const blocked = contact.blockedEmailDomains.join(',');
         const out = await res.json();
         if (out.success) {
           msg.className = 'mb-[18px] rounded-xl px-4 py-3.5 text-[0.9rem] success';
-          msg.textContent = "✓ Thanks! Your request was sent. I'll reply within 24 hours.";
+          msg.textContent = SUCCESS;
           form.reset();
         } else {
           throw new Error(out.message || 'failed');

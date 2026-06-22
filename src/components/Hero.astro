@@ -95,7 +95,9 @@ const { profile, socials } = resume;
   import resumeData from '../data/resume.json';
   const roles: string[] = resumeData.profile.roles;
   const typed = document.getElementById('typed');
-  if (typed) {
+  if (typed && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    typed.textContent = roles[0];
+  } else if (typed) {
     let ri = 0, ci = 0, del = false;
     const tick = () => {
       const w = roles[ri];
