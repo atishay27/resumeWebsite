@@ -1,7 +1,44 @@
 ---
 import '../styles/global.css';
 import resume from '../data/resume.json';
-const { meta } = resume;
+const { meta, profile, socials, experience, education, skills } = resume;
+
+// ---- Person + WebSite structured data (JSON-LD) ----
+// Built from resume.json so it stays in sync with the visible content.
+const currentRole = experience[0];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${meta.siteUrl}/#person`,
+      name: profile.name,
+      jobTitle: profile.title,
+      description: meta.description,
+      url: meta.siteUrl,
+      image: `${meta.siteUrl}/og.jpg`,
+      sameAs: socials.map((s) => s.url),
+      knowsAbout: skills.flatMap((s) => s.items),
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Bengaluru',
+        addressRegion: 'Karnataka',
+        addressCountry: 'IN',
+      },
+      worksFor: { '@type': 'Organization', name: currentRole.company },
+      alumniOf: education.map((e) => ({ '@type': 'CollegeOrUniversity', name: e.university })),
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${meta.siteUrl}/#website`,
+      url: meta.siteUrl,
+      name: meta.title,
+      description: meta.description,
+      inLanguage: 'en',
+      author: { '@id': `${meta.siteUrl}/#person` },
+    },
+  ],
+};
 ---
 
 <!DOCTYPE html>
@@ -13,26 +50,34 @@ const { meta } = resume;
     <title>{meta.title}</title>
     <meta name="description" content={meta.description} />
     <meta name="author" content="Atishay Jain" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#0a1628" />
     <link rel="canonical" href={meta.siteUrl} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Atishay Jain" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={meta.siteUrl} />
     <meta property="og:image" content={`${meta.siteUrl}/og.jpg`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Atishay Jain — Backend Developer" />
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
     <meta name="twitter:image" content={`${meta.siteUrl}/og.jpg`} />
+    <meta name="twitter:image:alt" content="Atishay Jain — Backend Developer" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Self-hosted fonts: preload the two used above the fold -->
+    <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/sora-variable.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
   </head>
   <body>
     <slot />
