@@ -189,6 +189,11 @@ const hcaptchaKey = import.meta.env.PUBLIC_HCAPTCHA_SITE_KEY || '50b2fe65-b00b-4
 
       try {
         const data = Object.fromEntries(new FormData(form).entries());
+        // hCaptcha is a drop-in reCAPTCHA replacement, so its widget injects BOTH
+        // h-captcha-response and g-recaptcha-response (same token). Web3Forms reads
+        // g-recaptcha-response as a Pro reCAPTCHA attempt and rejects it — so drop it
+        // and keep only the free hCaptcha token.
+        delete data['g-recaptcha-response'];
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
