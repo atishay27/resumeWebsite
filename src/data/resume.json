@@ -27,14 +27,27 @@
     ]
   },
   "socials": [
-    { "label": "LinkedIn", "icon": "linkedin", "url": "https://linkedin.com/in/atishay27" },
-    { "label": "GitHub", "icon": "github", "url": "https://github.com/atishay27" }
+    {
+      "label": "LinkedIn",
+      "icon": "linkedin",
+      "url": "https://linkedin.com/in/atishay27"
+    },
+    {
+      "label": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/atishay27"
+    }
   ],
   "stats": [
     { "target": 4, "suffix": "+", "decimals": 0, "label": "Years Experience" },
     { "target": 3, "suffix": "", "decimals": 0, "label": "Companies" },
     { "target": 9.28, "suffix": "", "decimals": 2, "label": "MCA CGPA" },
-    { "target": 100, "suffix": "%", "decimals": 0, "label": "Ownership Mindset" }
+    {
+      "target": 100,
+      "suffix": "%",
+      "decimals": 0,
+      "label": "Ownership Mindset"
+    }
   ],
   "about": {
     "heading": "Backend engineer who ships reliable systems",
@@ -89,11 +102,27 @@
   ],
   "skills": [
     { "icon": "code", "title": "Languages", "items": ["Java", "Python"] },
-    { "icon": "layers", "title": "Frameworks", "items": ["Dropwizard", "Spring Boot"] },
-    { "icon": "cube", "title": "DevOps & Tools", "items": ["Kubernetes", "CI/CD", "Git", "SonarQube"] },
+    {
+      "icon": "layers",
+      "title": "Frameworks",
+      "items": ["Dropwizard", "Spring Boot"]
+    },
+    {
+      "icon": "cube",
+      "title": "DevOps & Tools",
+      "items": ["Kubernetes", "CI/CD", "Git", "SonarQube"]
+    },
     { "icon": "database", "title": "Databases", "items": ["MySQL", "MongoDB"] },
-    { "icon": "queue", "title": "Messaging", "items": ["Apache Kafka", "Apache Pulsar"] },
-    { "icon": "globe", "title": "Practices", "items": ["Microservices", "Observability", "Unit Testing", "SDLC"] }
+    {
+      "icon": "queue",
+      "title": "Messaging",
+      "items": ["Apache Kafka", "Apache Pulsar"]
+    },
+    {
+      "icon": "globe",
+      "title": "Practices",
+      "items": ["Microservices", "Observability", "Unit Testing", "SDLC"]
+    }
   ],
   "education": [
     {
@@ -115,11 +144,32 @@
     "heading": "Request my full resume",
     "intro": "For privacy, my contact details and full resume aren't published here. Share a few details about the role and I'll send my resume directly to your inbox.",
     "features": [
-      { "icon": "pin", "title": "Bengaluru, India", "sub": "Open to remote & relocation" },
-      { "icon": "mail", "title": "Verified requests only", "sub": "Please use a company email address" },
-      { "icon": "clock", "title": "Quick turnaround", "sub": "Usually replies within 24 hours" }
+      {
+        "icon": "pin",
+        "title": "Bengaluru, India",
+        "sub": "Open to remote & bengaluru location jobs"
+      },
+      {
+        "icon": "mail",
+        "title": "Verified requests only",
+        "sub": "Please use a company email address"
+      },
+      {
+        "icon": "clock",
+        "title": "Quick turnaround",
+        "sub": "Usually replies within 24 hours"
+      }
     ],
-    "blockedEmailDomains": ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "icloud.com", "aol.com", "proton.me", "protonmail.com"],
+    "blockedEmailDomains": [
+      "gmail.com",
+      "yahoo.com",
+      "outlook.com",
+      "hotmail.com",
+      "icloud.com",
+      "aol.com",
+      "proton.me",
+      "protonmail.com"
+    ],
     "successMessage": "✓ Thanks! Your request was sent. I'll reply within 24 hours.",
     "subject": "New resume request from your portfolio site"
   }
