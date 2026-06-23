@@ -8,6 +8,12 @@ const { contact } = resume;
 // or in a local .env file). It is a public client-side key by design.
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
 const blocked = contact.blockedEmailDomains.join(',');
+
+// hCaptcha site key (public). hCaptcha is free on the Web3Forms plan; the default
+// below is Web3Forms' shared zero-config site key. Override via PUBLIC_HCAPTCHA_SITE_KEY
+// only if you register your own hCaptcha account and add its secret in the Web3Forms
+// dashboard. The widget blocks bots/abuse of the public access key.
+const hcaptchaKey = import.meta.env.PUBLIC_HCAPTCHA_SITE_KEY || '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
 ---
 <section id="contact" class="section-pad relative">
   <div class="wrap">
@@ -31,7 +37,7 @@ const blocked = contact.blockedEmailDomains.join(',');
 
       <div class="reveal d1 card rounded-[18px] p-[34px]">
         <div id="formMsg" role="status" aria-live="polite" class="hidden mb-[18px] rounded-xl px-4 py-3.5 text-[0.9rem]"></div>
-        <form id="resumeForm" data-key={web3Key} data-blocked={blocked} data-subject={contact.subject} data-success={contact.successMessage} novalidate>
+        <form id="resumeForm" data-key={web3Key} data-blocked={blocked} data-subject={contact.subject} data-success={contact.successMessage} data-captcha={hcaptchaKey} novalidate>
           <div class="grid gap-4 form-row">
             <div class="field">
               <label for="cf-name">Your Name <span class="text-accent">*</span></label>
@@ -69,6 +75,9 @@ const blocked = contact.blockedEmailDomains.join(',');
           </div>
           <!-- Honeypot anti-spam -->
           <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+          {hcaptchaKey && (
+            <div class="h-captcha mb-4" data-sitekey={hcaptchaKey} data-theme="dark"></div>
+          )}
           <button type="submit" class="btn btn-primary w-full justify-center mt-1.5" id="submitBtn">
             <span class="btn-label">Send Request</span><Icon name="send" class="w-4 h-4" />
           </button>
@@ -78,6 +87,10 @@ const blocked = contact.blockedEmailDomains.join(',');
     </div>
   </div>
 </section>
+
+{hcaptchaKey && (
+  <script is:inline src="https://js.hcaptcha.com/1/api.js" async defer></script>
+)}
 
 <style>
   .contact-grid { grid-template-columns: .85fr 1.15fr; }
@@ -119,6 +132,7 @@ const blocked = contact.blockedEmailDomains.join(',');
     const BLOCKED = (form.dataset.blocked || '').split(',').filter(Boolean);
     const SUBJECT = form.dataset.subject || 'New resume request';
     const SUCCESS = form.dataset.success || "✓ Thanks! Your request was sent. I'll reply within 24 hours.";
+    const CAPTCHA = form.dataset.captcha || '';
 
     const setErr = (el: Element, on: boolean) => el.closest('.field')!.classList.toggle('invalid', on);
     const validEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -143,6 +157,17 @@ const blocked = contact.blockedEmailDomains.join(',');
         if (bad) ok = false;
       }
       if (!ok) return;
+
+      // Require an hCaptcha token when the widget is enabled.
+      if (CAPTCHA) {
+        const token = (form.querySelector('[name="h-captcha-response"]') as HTMLTextAreaElement | null)?.value;
+        if (!token) {
+          msg.className = 'mb-[18px] rounded-xl px-4 py-3.5 text-[0.9rem] error';
+          msg.textContent = 'Please complete the verification challenge below and try again.';
+          msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+      }
 
       msg.className = 'hidden mb-[18px] rounded-xl px-4 py-3.5 text-[0.9rem]';
       submitBtn.disabled = true;
@@ -184,6 +209,8 @@ const blocked = contact.blockedEmailDomains.join(',');
         submitBtn.disabled = false;
         submitBtn.style.opacity = '1';
         label.textContent = 'Send Request';
+        // hCaptcha tokens are single-use — reset so the next submit gets a fresh one.
+        if (CAPTCHA && (window as any).hcaptcha) (window as any).hcaptcha.reset();
         msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     });

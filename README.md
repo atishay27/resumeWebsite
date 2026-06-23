@@ -7,7 +7,7 @@ A fast, sleek single-page resume site built with **Astro** + **Tailwind CSS**. A
 - **100% data-driven** — edit `src/data/resume.json` to update any content. No need to touch HTML/CSS.
 - **Astro + Tailwind** — ships near-zero JavaScript; only small islands for the typing effect, counters, particles, and form.
 - **Modern animations** — scroll reveals, animated counters, typing role text, particle-network background, hover micro-interactions.
-- **Request-resume form** — company-email validation, honeypot anti-spam, delivered via Web3Forms.
+- **Request-resume form** — company-email validation, honeypot + hCaptcha anti-spam, delivered via Web3Forms.
 - **Privacy-first** — phone number and personal email are never published.
 
 ## 🗂 Editing content
