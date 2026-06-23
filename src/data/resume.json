@@ -119,7 +119,7 @@
       { "icon": "mail", "title": "Verified requests only", "sub": "Please use a company email address" },
       { "icon": "clock", "title": "Quick turnaround", "sub": "Usually replies within 24 hours" }
     ],
-    "blockedEmailDomains": ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "icloud.com", "aol.com", "proton.me", "protonmail.com"],
+    "blockedEmailDomains": ["gmail.com", "googlemail.com", "yahoo.com", "yahoo.co.in", "yahoo.co.uk", "ymail.com", "rocketmail.com", "outlook.com", "hotmail.com", "hotmail.co.uk", "live.com", "msn.com", "icloud.com", "me.com", "mac.com", "aol.com", "proton.me", "protonmail.com", "pm.me", "gmx.com", "gmx.net", "mail.com", "zoho.com", "yandex.com", "yandex.ru", "tutanota.com", "tuta.io", "fastmail.com", "hey.com", "rediffmail.com", "mailinator.com", "guerrillamail.com", "sharklasers.com", "10minutemail.com", "temp-mail.org", "tempmail.com", "yopmail.com", "trashmail.com", "getnada.com", "throwawaymail.com", "maildrop.cc", "dispostable.com", "mailnesia.com", "fakeinbox.com", "mohmal.com", "emailondeck.com", "mintemail.com", "spam4.me", "discard.email", "tempr.email"],
     "successMessage": "✓ Thanks! Your request was sent. I'll reply within 24 hours.",
     "subject": "New resume request from your portfolio site"
   }
