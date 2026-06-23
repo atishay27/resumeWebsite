@@ -200,11 +200,13 @@ const hcaptchaKey = import.meta.env.PUBLIC_HCAPTCHA_SITE_KEY || '50b2fe65-b00b-4
           msg.textContent = SUCCESS;
           form.reset();
         } else {
-          throw new Error(out.message || 'failed');
+          // Surface the real Web3Forms reason (e.g. captcha/spam) instead of a generic message.
+          msg.className = 'mb-[18px] rounded-xl px-4 py-3.5 text-[0.9rem] error';
+          msg.textContent = out.message || 'Something went wrong. Please try again in a moment.';
         }
       } catch (err) {
         msg.className = 'mb-[18px] rounded-xl px-4 py-3.5 text-[0.9rem] error';
-        msg.textContent = 'Something went wrong. Please try again in a moment.';
+        msg.textContent = 'Network error — please check your connection and try again.';
       } finally {
         submitBtn.disabled = false;
         submitBtn.style.opacity = '1';
