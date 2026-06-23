@@ -1,0 +1,16 @@
+# Copy this file to .dev.vars for local development (gitignored, never committed).
+# These are SERVER-ONLY secrets read by /api/send at request time via the Cloudflare
+# runtime. In production, set the SAME names as the Worker's encrypted variables
+# (Cloudflare dashboard → your Worker → Settings → Variables and Secrets).
+
+# Cloudflare Turnstile SECRET key (pairs with PUBLIC_TURNSTILE_SITE_KEY).
+TURNSTILE_SECRET_KEY=your-turnstile-secret-key
+
+# Resend API key — create at https://resend.com (verify the atishay.dev domain first).
+RESEND_API_KEY=re_your_resend_api_key
+
+# Where resume requests are delivered (your inbox).
+CONTACT_TO_EMAIL=you@example.com
+
+# Verified sender on your Resend domain (must be on a domain you verified in Resend).
+CONTACT_FROM_EMAIL=Resume Requests <noreply@atishay.dev>
