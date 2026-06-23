@@ -186,3 +186,50 @@ adds the "verified email" signal. Upgrade to **B** later if you want full automa
 4. **Captcha:** switch to Turnstile (recommended) or keep hCaptcha?
 
 All paths stay within Cloudflare/Resend free tiers (**~$0/month**).
+
+---
+
+## 10. Phase 1 — IMPLEMENTED on this branch (not deployed)
+
+Decisions locked: **Resend · foundation-first (no OTP yet) · notify-only · Turnstile.**
+
+**Code changes (branch `v2-secure-form`):**
+- `@astrojs/cloudflare` adapter + `output: 'hybrid'` (pages stay static; only the API runs server-side).
+- `src/pages/api/send.ts` — server endpoint: origin lock → honeypot → **server-side Turnstile
+  verify** → field + **company-email validation** → **Resend** send (notify-only) → JSON result.
+  HTML-escaped to prevent injection; never leaks which secret is missing.
+- `Contact.astro` — Turnstile widget (dark), posts to `/api/send`; Web3Forms + hCaptcha removed.
+- CSP updated to Turnstile only; `.env.example` + `.dev.vars.example` added; `.dev.vars` gitignored.
+
+**Verified locally (Turnstile test keys + dummy Resend key):**
+| Case | Result |
+|---|---|
+| No Turnstile token | `400` verification required |
+| Honeypot filled | `200` success, **no email** |
+| Missing fields | `400` |
+| Free-provider email (gmail) | `400` — **server-side** rejection |
+| Valid → Resend | reaches send (real key → `200`; dummy → `502`) |
+
+The homepage stays prerendered static; `_routes.json` sends only `/api/send` to the Worker.
+
+### ⚠️ Key review item — deployment model
+The site is currently a **static Cloudflare Worker** (`*.workers.dev`). Adding SSR means the build
+now emits `dist/_worker.js/` + `_routes.json`. Two ways to deploy this:
+- **Recommended: Cloudflare Pages** — natively consumes the adapter's `_worker.js` + `_routes.json`
+  (the adapter's documented happy path). Connect the repo as a Pages project, build `npm run build`,
+  output `dist`.
+- **Stay on Workers (Static Assets)** — needs a `wrangler` config (assets binding + worker entry +
+  `nodejs_compat`); validate in a preview deploy first.
+
+**Do not merge to `main` until this is validated on a Cloudflare preview/branch deployment.**
+
+### Setup checklist (before testing on a preview)
+1. **Turnstile** → Cloudflare dashboard → Turnstile → create widget for `atishay.dev` →
+   copy **site key** + **secret key**.
+2. **Resend** → sign up → **verify the `atishay.dev` domain** (add the DKIM/SPF DNS records it
+   gives you) → create an **API key**.
+3. **Secrets** (Pages/Worker → Variables & Secrets):
+   - `PUBLIC_TURNSTILE_SITE_KEY` (build var, public)
+   - `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` (secrets)
+4. **Local dev:** copy `.env.example`→`.env` and `.dev.vars.example`→`.dev.vars`, fill in, run `npm run dev`.
+5. Test on the preview deployment; once a real email lands, merge to `main`.

@@ -12,6 +12,7 @@ dist/
 .env
 .env.local
 .env.*.local
+.dev.vars
 
 # Personal / sensitive source assets (DO NOT COMMIT)
 *.pdf
