@@ -88,6 +88,11 @@ const { profile, socials } = resume;
     .hero-cta, .socials { justify-content: center; }
     .hero-text p { margin-left: auto; margin-right: auto; }
     .float-badge { display: none; }
+    /* On mobile the hero stacks and overflows the viewport, so the portrait sat
+       flush against the next section. Add breathing room below it, and hide the
+       scroll cue (it overlaps the stacked content). */
+    #home { padding-bottom: 64px !important; }
+    .scroll-cue { display: none; }
   }
 </style>
 
