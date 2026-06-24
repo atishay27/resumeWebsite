@@ -1,0 +1,27 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://atishay.dev/mcp",
+      "service-desc": [
+        {
+          "href": "https://atishay.dev/.well-known/mcp/server-card.json",
+          "type": "application/json",
+          "title": "MCP server card (machine-readable description)"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://atishay.dev/llms.txt",
+          "type": "text/markdown",
+          "title": "Résumé content (markdown)"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://atishay.dev/mcp",
+          "title": "MCP endpoint (GET returns server info)"
+        }
+      ]
+    }
+  ]
+}
