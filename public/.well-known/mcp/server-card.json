@@ -1,0 +1,10 @@
+{
+  "serverInfo": {
+    "name": "atishay-resume",
+    "version": "1.0.0"
+  },
+  "endpoint": "https://atishay.dev/mcp",
+  "transport": "streamable-http",
+  "capabilities": ["tools", "resources"],
+  "description": "Read-only MCP server exposing Atishay Jain's résumé (profile, experience, skills, education) as tools and resources."
+}
