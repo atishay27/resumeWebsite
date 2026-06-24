@@ -1,91 +1,80 @@
-# Atishay Jain — Resume Website
+# atishay.dev — Personal Résumé Site
 
-A fast, sleek single-page resume site built with **Astro** + **Tailwind CSS**. All content lives in one editable JSON file, and the contact form delivers requests via **Web3Forms**. Deployed on **Cloudflare Pages**.
+A fast, single-page résumé website for **Atishay Jain**, built with **Astro** + **Tailwind CSS** and deployed on **Cloudflare Pages**. Content is fully data-driven from one JSON file, the contact form runs on a serverless endpoint with captcha + email delivery, and the site exposes an **MCP server** and **`llms.txt`** so AI agents can read it.
 
-## ✨ Features
+🔗 **Live:** [atishay.dev](https://atishay.dev)
 
-- **100% data-driven** — edit `src/data/resume.json` to update any content. No need to touch HTML/CSS.
-- **Astro + Tailwind** — ships near-zero JavaScript; only small islands for the typing effect, counters, particles, and form.
-- **Modern animations** — scroll reveals, animated counters, typing role text, particle-network background, hover micro-interactions.
-- **Request-resume form** — company-email validation, honeypot + hCaptcha anti-spam, delivered via Web3Forms.
-- **Privacy-first** — phone number and personal email are never published.
+## Features
 
-## 🗂 Editing content
+- **Data-driven** — all content lives in [`src/data/resume.json`](src/data/resume.json). Edit one file; no HTML/CSS changes needed.
+- **Modern, animated UI** — scroll reveals, animated counters, typing role text, a particle-network background, hover micro-interactions. Fully responsive, dark theme, and respects `prefers-reduced-motion`.
+- **Secure contact form** — a Cloudflare Function (`/api/send`) with server-side **Turnstile** verification, company-email validation, honeypot, and rate limiting; delivers via **Resend**. Personal email/phone are never published — visitors request the résumé instead.
+- **Fast & accessible** — static-first (near-zero JS), self-hosted variable fonts, optimized images. Lighthouse Performance / Accessibility / SEO in the high-90s–100.
+- **SEO & AI-ready** — `Person` + `WebSite` JSON-LD, Open Graph / Twitter cards, sitemap, security headers (CSP, HSTS), plus an **MCP server** (`/mcp`), **`llms.txt`**, and agent-discovery metadata.
 
-Everything is in **`src/data/resume.json`**:
+## Tech stack
 
-| Section      | Key            |
-|--------------|----------------|
-| Name / hero  | `profile`      |
-| Social links | `socials`      |
-| Stat counters| `stats`        |
-| About + facts| `about`        |
-| Work history | `experience`   |
-| Skill groups | `skills`       |
-| Education    | `education`    |
-| Contact form | `contact`      |
+Astro · Tailwind CSS · TypeScript · Cloudflare Pages (Functions) · Resend · Cloudflare Turnstile
 
-Change the values, save, and the site updates on the next build.
-
-## 🚀 Local development
+## Getting started
 
 ```bash
 npm install
-cp .env.example .env   # then paste your Web3Forms key
-npm run dev            # http://localhost:4321
-npm run build          # outputs to dist/
-npm run preview        # preview the production build
+cp .env.example .env             # PUBLIC_TURNSTILE_SITE_KEY (build-time, public)
+cp .dev.vars.example .dev.vars   # server secrets for the form (local dev)
+npm run dev                      # http://localhost:4321
+npm run build                    # → dist/
 ```
 
-## ☁️ Deploy to Cloudflare Pages
+## Editing content
 
-1. Push this repo to GitHub (`atishay27/resumeWebsite`).
-2. Cloudflare Dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git** → select the repo.
-3. Build settings:
-   - **Framework preset:** Astro
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-4. **Settings → Environment variables → Add:**
-   - `PUBLIC_WEB3FORMS_KEY` = *your Web3Forms access key*
-5. Save & deploy.
+Everything is in **`src/data/resume.json`**:
 
-> The Web3Forms key is a **public client-side key** by design — it is safe to expose in the
-> browser, but it is kept in an env var (not committed) so it is easy to rotate.
+| Section | Key |
+|---|---|
+| Hero / profile | `profile` |
+| Social links | `socials` |
+| Stat counters | `stats` |
+| About + quick facts | `about` |
+| Work history | `experience` |
+| Skills | `skills` |
+| Education | `education` |
+| Contact copy + blocked email domains | `contact` |
 
-## 🌐 Domains & canonical SEO
+`llms.txt` and the MCP server are generated from the same file, so they always stay in sync.
 
-This site is served on three domains, with **`https://atishay.dev` as the single canonical**
-(set in `astro.config.mjs`, `src/data/resume.json`, the `<link rel="canonical">`, sitemap, and
-JSON-LD). The other two **must 301-redirect** to it, or Google will treat them as duplicate
-content and split the ranking.
+## Contact form configuration
 
-In Cloudflare, add all three apex domains (+ their `www`) as custom domains on the Pages project,
-then create a **Redirect Rule** (Rules → Redirect Rules) for the two non-canonical ones:
+The form posts to `/api/send` (a Cloudflare Function). Set these in the deployment's environment (and in `.dev.vars` for local dev):
 
-| When hostname is… | Redirect to | Type |
+| Variable | Type | Purpose |
 |---|---|---|
-| `atishay.net`, `www.atishay.net`, `jainatishay.com`, `www.jainatishay.com`, `www.atishay.dev` | `https://atishay.dev/${path}` | 301 (preserve path + query) |
+| `PUBLIC_TURNSTILE_SITE_KEY` | build (public) | Turnstile widget |
+| `TURNSTILE_SECRET_KEY` | secret | Turnstile server-side verification |
+| `RESEND_API_KEY` | secret | Email delivery |
+| `CONTACT_TO_EMAIL` | secret | Where requests are delivered |
+| `CONTACT_FROM_EMAIL` | secret | Verified Resend sender |
 
-Result: every URL on every domain resolves to one canonical address — best for SEO.
+## Deployment
 
-## 🔤 Fonts
+Cloudflare Pages — framework preset **Astro**, build command `npm run build`, output directory `dist`. Add the environment variables above and enable the **`nodejs_compat`** compatibility flag (required by the Astro Cloudflare adapter).
 
-Sora, Inter, and JetBrains Mono are **self-hosted** (variable woff2 in `public/fonts/`) — no
-Google Fonts requests, so faster first paint and no third-party IP leak. The `@font-face` rules
-live in `src/styles/global.css`; the two above-the-fold fonts are `<link rel="preload">`ed.
+## Project structure
 
-## 🔎 SEO / AI discoverability
+```
+src/
+  components/        UI sections (Hero, Experience, Skills, …)
+  data/resume.json   ← all content
+  layouts/
+  pages/
+    index.astro      home
+    404.astro
+    api/send.ts      contact-form endpoint
+    mcp.ts           MCP server (read-only résumé tools)
+    llms.txt.ts      AI-readable markdown summary
+public/              static assets, fonts, _headers, robots, sitemap, .well-known/
+```
 
-- `Person` + `WebSite` JSON-LD structured data (in `src/layouts/Layout.astro`, built from `resume.json`).
-- Rich Open Graph + Twitter cards with a generated `public/og.jpg`.
-- `public/robots.txt` welcomes search **and** AI crawlers (GPTBot, ClaudeBot, PerplexityBot, …) and points to `public/sitemap.xml`.
-- Security/cache headers in `public/_headers` (CSP, etc.).
+## Not committed
 
-## 🖼 Headshot
-
-The hero portrait lives at `public/portrait.webp` (with `public/portrait.jpg` fallback).
-Replace those files to change the photo — no code changes needed.
-
-## 🔒 Not committed to git
-
-`.gitignore` excludes the source resume PDF, the `PICS/` folder, `.env`, `headshot-prompt.md`, `node_modules/`, and `dist/`.
+`.gitignore` excludes the résumé PDF, source photos (`PICS/`), `.env`, `.dev.vars`, `node_modules/`, and `dist/`.
